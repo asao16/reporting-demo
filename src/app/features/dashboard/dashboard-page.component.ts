@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTableModule } from 'ng-zorro-antd/table';
 
 import { demoCompanies, demoReports } from '../../demo-data/reporting-demo.data';
+import { UserService } from '../../core/services/user.service';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
@@ -15,6 +16,8 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardPageComponent {
+  private readonly userService = inject(UserService);
+  readonly currentLanguage = this.userService.selectedLang;
   readonly totalUsers = demoCompanies.reduce((sum, company) => sum + company.users, 0);
   readonly totalReports = demoCompanies.reduce((sum, company) => sum + company.reports, 0);
   readonly totalCompanies = demoCompanies.length;

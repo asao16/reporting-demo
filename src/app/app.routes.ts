@@ -1,9 +1,18 @@
 import { Routes } from '@angular/router';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { languageGuard } from './core/guards/language.guard';
+import { provideLocale } from './core/providers/locale.providers';
+import { loadTranslations, TranslationService } from './core/services/translation.service';
 
 export const appRoutes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: 'es' },
   {
-    path: '',
+    path: ':lang',
+    canActivate: [languageGuard],
+    providers: [TranslationService, ...provideLocale()],
+    resolve: {
+      _t: loadTranslations('common', 'sidebar', 'dashboard', 'reports', 'report-viewer', 'admin', 'export-jobs'),
+    },
     component: MainLayoutComponent,
     children: [
       {
@@ -46,5 +55,5 @@ export const appRoutes: Routes = [
       { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
     ],
   },
-  { path: '**', redirectTo: 'dashboard' },
+  { path: '**', redirectTo: 'es' },
 ];

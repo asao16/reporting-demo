@@ -1,0 +1,10 @@
+{
+  "dashboard.welcome": "Welcome",
+  "dashboard.subtitle": "Hi <strong>Ari Kim</strong>, here is a demo snapshot of reporting activity.",
+  "dashboard.users": "Users",
+  "dashboard.reports": "Reports",
+  "dashboard.integrations": "Integrations",
+  "dashboard.companies": "Companies",
+  "dashboard.favorite-reports": "Favorite reports",
+  "dashboard.favorite-subtitle": "Frequently opened reports for the selected company."
+}

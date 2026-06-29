@@ -77,7 +77,12 @@ export interface DemoUser {
 }
 
 export interface DemoExportJob {
-  name: string;
-  status: 'Completed' | 'Running' | 'Queued';
-  progress: number;
+  id: number;
+  sectionName: string;
+  reportKey: string;
+  sectionKey: string;
+  status: 'Pending' | 'Processing' | 'Completed' | 'Failed';
+  enqueuedAt: string;
+  completedAt?: string;
+  fileExtension: 'pdf' | 'xlsx';
 }

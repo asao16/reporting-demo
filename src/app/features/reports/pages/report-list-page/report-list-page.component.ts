@@ -8,6 +8,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 
 import { demoFolders, demoReports } from '../../../../demo-data/reporting-demo.data';
+import { UserService } from '../../../../core/services/user.service';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 
 @Component({
@@ -22,7 +23,9 @@ export class ReportListPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly userService = inject(UserService);
   readonly folders = demoFolders;
+  readonly currentLanguage = this.userService.selectedLang;
   readonly activeFolder = signal<string | null>(null);
   readonly search = signal('');
   readonly activeFolderName = computed(

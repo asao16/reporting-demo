@@ -1,0 +1,13 @@
+{
+  "export.jobs": "Exportaciones",
+  "export-jobs.title": "Exportaciones",
+  "export-jobs.total": "total",
+  "export-jobs.empty": "No hay exportaciones",
+  "export-jobs.download": "Descargar",
+  "export-jobs.status-pending": "Pendiente",
+  "export-jobs.status-processing": "Procesando...",
+  "export-jobs.status-completed": "Listo",
+  "export-jobs.status-failed": "Falló",
+  "export-jobs.pending-queue": "En cola...",
+  "export-jobs.processing-label": "Procesando..."
+}

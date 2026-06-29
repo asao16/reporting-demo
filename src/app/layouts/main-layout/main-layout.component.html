@@ -22,9 +22,9 @@
       @for (item of menuItems; track item.route) {
         <a
           class="sidebar__menu-item"
-          [routerLink]="item.route"
+          [routerLink]="['/', currentLanguage(), item.route]"
           routerLinkActive="sidebar__menu-item--active"
-          [routerLinkActiveOptions]="{ exact: item.route === '/dashboard' }"
+          [routerLinkActiveOptions]="{ exact: item.route === 'dashboard' }"
           (click)="mobileOpen.set(false)"
         >
           <span class="sidebar__menu-item-icon">
@@ -64,7 +64,7 @@
         </button>
       </div>
       <div class="header__right">
-        <nz-badge nzDot nzStatus="success">
+        <nz-badge nzDot [nzStatus]="exportBadgeStatus()">
           <button class="header__action-btn" type="button" (click)="exportPanelOpen.set(true)">
             <nz-icon nzType="download" nzTheme="outline" />
           </button>
@@ -94,22 +94,94 @@
   </div>
 </div>
 
-<nz-drawer
-  [nzVisible]="exportPanelOpen()"
-  nzPlacement="right"
-  [nzTitle]="'export.jobs' | translate"
-  [nzWidth]="420"
-  (nzOnClose)="exportPanelOpen.set(false)"
->
-  <div *nzDrawerContent class="export-panel">
-    @for (job of exportJobs; track job.name) {
-      <div class="export-panel__job">
-        <div class="export-panel__job-header">
-          <strong>{{ job.name }}</strong>
-          <span>{{ job.status | translate }}</span>
-        </div>
-        <nz-progress [nzPercent]="job.progress" nzSize="small" />
+@if (exportPanelOpen()) {
+  <div class="export-jobs__overlay" (click)="exportPanelOpen.set(false)"></div>
+  <div class="export-jobs__panel" (click)="$event.stopPropagation()">
+    <nz-card [nzBodyStyle]="{ padding: '16px' }">
+      <div class="export-jobs__header">
+        <span class="export-jobs__title">{{ "export-jobs.title" | translate }}</span>
+        @if (exportJobs.length > 0) {
+          <span class="export-jobs__count">{{ exportJobs.length }} {{ "export-jobs.total" | translate }}</span>
+        }
       </div>
-    }
+
+      @if (exportJobs.length === 0) {
+        <div class="export-jobs__empty">
+          <span class="export-jobs__empty-icon">
+            <nz-icon nzType="file" nzTheme="outline" />
+          </span>
+          <p>{{ "export-jobs.empty" | translate }}</p>
+        </div>
+      } @else {
+        <div class="export-jobs__list">
+          @for (job of exportJobs; track job.id) {
+            <div class="export-jobs__item">
+              <div class="export-jobs__icon" [class.export-jobs__icon--xlsx]="job.fileExtension === 'xlsx'" [class.export-jobs__icon--pdf]="job.fileExtension === 'pdf'">
+                @if (job.fileExtension === 'xlsx') {
+                  <nz-icon nzType="file-excel" nzTheme="outline" />
+                } @else {
+                  <nz-icon nzType="file-pdf" nzTheme="outline" />
+                }
+              </div>
+
+              <div class="export-jobs__info">
+                <div class="export-jobs__name">
+                  {{ job.sectionName | translate }}
+                  @if (getExportCompletedSuffix(job); as suffix) {
+                    <span> - {{ suffix }}</span>
+                  }
+                </div>
+                <div class="export-jobs__meta">
+                  <span>{{ job.enqueuedAt | date: "dd/MM/yyyy, HH:mm" }}</span>
+                  @if (job.completedAt) {
+                    <span>-></span>
+                    <span>{{ job.completedAt | date: "HH:mm" }}</span>
+                  }
+                  @if (getExportDuration(job); as duration) {
+                    <span>-</span>
+                    <span>{{ duration }}</span>
+                  }
+                </div>
+                @if (job.status === 'Processing') {
+                  <div class="export-jobs__indicator">
+                    <nz-icon nzType="loading" nzTheme="outline" />
+                    <span>{{ "export-jobs.processing-label" | translate }}</span>
+                  </div>
+                }
+                @if (job.status === 'Pending') {
+                  <div class="export-jobs__indicator export-jobs__indicator--pending">
+                    <nz-icon nzType="clock-circle" nzTheme="outline" />
+                    <span>{{ "export-jobs.pending-queue" | translate }}</span>
+                  </div>
+                }
+              </div>
+
+              <div class="export-jobs__actions">
+                <div class="export-jobs__badge" [class.export-jobs__badge--pending]="job.status === 'Pending'" [class.export-jobs__badge--processing]="job.status === 'Processing'" [class.export-jobs__badge--completed]="job.status === 'Completed'" [class.export-jobs__badge--failed]="job.status === 'Failed'">
+                  @if (job.status === 'Processing') {
+                    <nz-icon nzType="loading" nzTheme="outline" />
+                  }
+                  <span>{{ getExportStatusKey(job.status) | translate }}</span>
+                </div>
+
+                @if (job.status === 'Completed') {
+                  <button
+                    nz-button
+                    nzType="text"
+                    nzSize="small"
+                    type="button"
+                    class="export-jobs__action-btn export-jobs__action-btn--download"
+                    [title]="'export-jobs.download' | translate"
+                    (click)="downloadExport(job)"
+                  >
+                    <nz-icon nzType="download" nzTheme="outline" />
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </nz-card>
   </div>
-</nz-drawer>
+}

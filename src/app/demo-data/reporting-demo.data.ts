@@ -106,6 +106,32 @@ export const demoUsers: DemoUser[] = [
 ];
 
 export const demoExportJobs: DemoExportJob[] = [
-  { name: 'Lead Time Performance.pdf', status: 'Completed', progress: 100 },
-  { name: 'Vendor Scorecard.xlsx', status: 'Running', progress: 72 },
+  {
+    id: 1004,
+    sectionName: 'Lead Time Performance',
+    reportKey: 'lead-time',
+    sectionKey: 'overview',
+    status: 'Completed',
+    enqueuedAt: '2026-06-29T13:42:00',
+    completedAt: '2026-06-29T13:43:18',
+    fileExtension: 'pdf',
+  },
+  {
+    id: 1003,
+    sectionName: 'Vendor Scorecard',
+    reportKey: 'vendor-score',
+    sectionKey: 'details',
+    status: 'Processing',
+    enqueuedAt: '2026-06-29T13:48:00',
+    fileExtension: 'xlsx',
+  },
+  {
+    id: 1002,
+    sectionName: 'Lead Time Performance',
+    reportKey: 'lead-time',
+    sectionKey: 'trend',
+    status: 'Pending',
+    enqueuedAt: '2026-06-29T13:50:00',
+    fileExtension: 'pdf',
+  },
 ];

@@ -54,7 +54,7 @@
       </thead>
       <tbody>
         @for (report of favTable.data; track report.key) {
-          <tr class="dashboard__report-row" [routerLink]="['/reports', report.key]">
+          <tr class="dashboard__report-row" [routerLink]="['/', currentLanguage(), 'reports', report.key]">
             <td>
               <div class="dashboard__report-name">
                 <div class="dashboard__report-icon">

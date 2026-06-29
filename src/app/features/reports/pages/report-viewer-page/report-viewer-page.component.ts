@@ -26,6 +26,7 @@ import { ReportTimelineComponent } from '../../components/report-timeline/report
 import { ReportSupplierCardsComponent } from '../../components/report-supplier-cards/report-supplier-cards.component';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 import { TranslationService } from '../../../../core/services/translation.service';
+import { UserService } from '../../../../core/services/user.service';
 
 @Component({
   selector: 'app-report-viewer-page',
@@ -55,6 +56,8 @@ import { TranslationService } from '../../../../core/services/translation.servic
 })
 export class ReportViewerPageComponent {
   private readonly translations = inject(TranslationService);
+  private readonly userService = inject(UserService);
+  readonly currentLanguage = this.userService.selectedLang;
   readonly reportKey = input.required<string>();
   readonly activeSection = signal(0);
   readonly isChatOpen = signal(true);

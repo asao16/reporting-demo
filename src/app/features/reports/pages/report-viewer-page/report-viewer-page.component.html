@@ -9,7 +9,7 @@
           <div>
             <a
               class="report-viewer__back"
-              routerLink="/reports"
+              [routerLink]="['/', currentLanguage(), 'reports']"
               [queryParams]="backQueryParams()"
             >
               <nz-icon nzType="left" nzTheme="outline" />

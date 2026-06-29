@@ -1,9 +1,5 @@
 import { expect, test } from '@playwright/test';
 
-test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() => localStorage.clear());
-});
-
 async function expectNoHorizontalOverflow(page: import('@playwright/test').Page) {
   const overflow = await page.evaluate(() => {
     const doc = document.documentElement;
@@ -59,7 +55,7 @@ async function expectReportContentScrollsInternally(page: import('@playwright/te
 }
 
 test('report browser and modular report viewer render cleanly', async ({ page }, testInfo) => {
-  await page.goto('/reports');
+  await page.goto('/en/reports');
   await expect(page.getByRole('link', { name: /Vendor Scorecard/ })).toBeVisible();
   await expect(page.getByText('Performance reports')).toBeVisible();
   await expect(page.getByText('Archived reports')).toBeVisible();
@@ -104,8 +100,20 @@ test('report browser and modular report viewer render cleanly', async ({ page },
   await expectNoHorizontalOverflow(page);
 });
 
+test('export jobs panel follows the original compact job list pattern', async ({ page }) => {
+  await page.goto('/en/dashboard');
+
+  await page.locator('.header__action-btn').click();
+  await expect(page.getByText('Exports')).toBeVisible();
+  await expect(page.getByText('3 total')).toBeVisible();
+  await expect(page.locator('.export-jobs__icon--pdf')).toHaveCount(2);
+  await expect(page.locator('.export-jobs__icon--xlsx')).toHaveCount(1);
+  await expect(page.getByText('Processing...')).toHaveCount(2);
+  await expect(page.getByTitle('Download')).toBeVisible();
+});
+
 test('language switch updates visible UI labels', async ({ page }) => {
-  await page.goto('/reports/lead-time');
+  await page.goto('/en/reports/lead-time');
   await expect(page.getByRole('tab', { name: 'Overview' })).toBeVisible();
 
   await page.getByRole('button', { name: 'EN', exact: true }).click();
@@ -120,7 +128,7 @@ test('language switch updates visible UI labels', async ({ page }) => {
 });
 
 test('filters change visible report data', async ({ page }) => {
-  await page.goto('/reports/vendor-score');
+  await page.goto('/en/reports/vendor-score');
   await expect(page.getByText('91.4')).toBeVisible();
 
   await page.locator('app-report-filter-summary nz-select').nth(1).click();

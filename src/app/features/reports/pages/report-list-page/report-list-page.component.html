@@ -67,7 +67,7 @@
       @for (report of reports(); track report.key) {
         <a
           class="report-list__grid-card report-list__grid-card--report"
-          [routerLink]="['/reports', report.key]"
+          [routerLink]="['/', currentLanguage(), 'reports', report.key]"
           [queryParams]="report.folderKey ? { folder: report.folderKey } : null"
         >
           <div class="report-list__grid-card-body">
