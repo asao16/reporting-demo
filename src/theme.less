@@ -1,0 +1,41 @@
+@import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
+@import "./styles/base/variables.less";
+
+html {
+  overflow: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  font-family: @font-family;
+  font-size: @font-size-lg;
+  font-weight: @font-weight-normal;
+  color: @text-color-secondary;
+  background: @body-background;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: @font-family-headings;
+  font-weight: @font-weight-bold;
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  color: @heading-color;
+}
+
+.btn-responsive {
+  &__label {
+    display: none;
+
+    @media (min-width: @screen-md) {
+      display: inline;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<div class="breakdown">
+  @for (item of breakdown; track item.label) {
+    <div class="breakdown__item">
+      <div class="breakdown__label">
+        <span>{{ item.label }}</span>
+        <strong>{{ item.value }}%</strong>
+      </div>
+      <nz-progress
+        [nzPercent]="item.value"
+        [nzShowInfo]="false"
+        [nzStatus]="item.status === 'exception' ? 'exception' : item.status === 'success' ? 'success' : 'normal'"
+      />
+    </div>
+  }
+</div>

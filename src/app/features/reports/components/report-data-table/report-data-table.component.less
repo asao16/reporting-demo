@@ -1,0 +1,74 @@
+@import 'styles/base/variables';
+
+.data-table {
+  &__scroll-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    &::-webkit-scrollbar {
+      height: @padding-xs;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: @background-color-base;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: @neutral-300;
+      border-radius: @border-radius-base;
+
+      &:hover {
+        background: @neutral-400;
+      }
+    }
+  }
+
+  &__primary {
+    color: @heading-color;
+    font-weight: @font-weight-semibold;
+    white-space: nowrap;
+  }
+
+  &__secondary {
+    max-width: 360px;
+    color: @text-color-secondary;
+    font-size: @font-size-sm;
+    margin-top: @spacing-2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__number {
+    text-align: right;
+    font-feature-settings: 'tnum';
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  }
+
+  &__row--alternate > td {
+    background: fade(@primary-color, 5%);
+  }
+}
+
+:host {
+  .ant-table {
+    font-size: 13px;
+  }
+
+  .ant-table-thead > tr > th {
+    font-weight: @font-weight-semibold;
+    font-size: 13px;
+    padding: @padding-sm @padding-md;
+    border-bottom: @border-width-base @border-style-base @border-color-base;
+    white-space: nowrap;
+  }
+
+  .ant-table-tbody > tr > td {
+    padding: @padding-sm @padding-md;
+    font-size: 13px;
+    color: @heading-color;
+    border-bottom: @border-width-base @border-style-base @border-color-split;
+    white-space: nowrap;
+  }
+}

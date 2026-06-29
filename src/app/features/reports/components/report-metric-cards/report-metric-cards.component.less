@@ -1,0 +1,115 @@
+@import 'styles/base/variables';
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: @padding-sm;
+
+  @media (max-width: (@screen-md - 1)) {
+    grid-template-columns: 1fr;
+  }
+
+  &__card {
+    border: @border-width-base solid @border-color-base;
+    border-radius: @border-radius-lg;
+    padding: @padding-md;
+    background: @component-background;
+
+    @media (max-width: (@screen-md - 1)) {
+      padding: @padding-sm;
+    }
+
+    span {
+      display: block;
+      color: @text-color-secondary;
+      font-size: @font-size-sm;
+      margin-bottom: @padding-xss;
+    }
+
+    strong {
+      display: block;
+      color: @heading-color;
+      font-size: @font-size-2xl;
+      margin-bottom: @padding-xs;
+
+      @media (max-width: (@screen-md - 1)) {
+        font-size: @font-size-xl;
+      }
+    }
+  }
+}
+
+.score-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: @padding-md;
+
+  @media (max-width: (@screen-lg - 1)) {
+    grid-template-columns: 1fr;
+  }
+
+  &__hero {
+    border: @border-width-base solid @border-color-base;
+    border-radius: @border-radius-xl;
+    background: @primary-color-bg;
+    padding: @padding-lg;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 260px;
+
+    span {
+      color: @text-color-secondary;
+      font-size: @font-size-sm;
+      margin-bottom: @padding-xs;
+    }
+
+    strong {
+      color: @primary-color-dark;
+      font-size: 56px;
+      line-height: 1;
+      margin-bottom: @padding-sm;
+
+      @media (max-width: (@screen-md - 1)) {
+        font-size: 40px;
+      }
+    }
+  }
+
+  &__cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: @padding-sm;
+
+    @media (max-width: (@screen-md - 1)) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__card {
+    border: @border-width-base solid @border-color-base;
+    border-radius: @border-radius-lg;
+    background: @component-background;
+    padding: @padding-md;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 120px;
+
+    span {
+      color: @text-color-secondary;
+      font-size: @font-size-sm;
+    }
+
+    strong {
+      color: @heading-color;
+      font-size: @font-size-2xl;
+    }
+
+    &--progress {
+      align-items: center;
+      text-align: center;
+      gap: @padding-sm;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.angular/
+.cache/
+tmp/
+screenshots/
+playwright-report/
+test-results/
+coverage/
+.env
+.env.*
+*.local
+_source-original/
+Reporting.Frontend/
+.idea/
+.agents/
+.codex/

@@ -1,0 +1,75 @@
+<div class="dashboard">
+  <div class="dashboard__welcome">
+    <h2 class="dashboard__welcome-title">Welcome</h2>
+    <p class="dashboard__welcome-subtitle">
+      Hi <strong>Ari Kim</strong>, here is a demo snapshot of reporting activity.
+    </p>
+  </div>
+
+  <div class="dashboard__stats">
+    <div class="dashboard__stat-card">
+      <div class="dashboard__stat-icon"><nz-icon nzType="user" nzTheme="outline" /></div>
+      <div class="dashboard__stat-content">
+        <span class="dashboard__stat-label">Users</span>
+        <span class="dashboard__stat-value">{{ totalUsers }}</span>
+      </div>
+    </div>
+    <div class="dashboard__stat-card">
+      <div class="dashboard__stat-icon"><nz-icon nzType="file-text" nzTheme="outline" /></div>
+      <div class="dashboard__stat-content">
+        <span class="dashboard__stat-label">Reports</span>
+        <span class="dashboard__stat-value">{{ totalReports }}</span>
+      </div>
+    </div>
+    <div class="dashboard__stat-card">
+      <div class="dashboard__stat-icon"><nz-icon nzType="thunderbolt" nzTheme="outline" /></div>
+      <div class="dashboard__stat-content">
+        <span class="dashboard__stat-label">Integrations</span>
+        <span class="dashboard__stat-value">{{ totalIntegrations }}</span>
+      </div>
+    </div>
+    <div class="dashboard__stat-card">
+      <div class="dashboard__stat-icon"><nz-icon nzType="bank" nzTheme="outline" /></div>
+      <div class="dashboard__stat-content">
+        <span class="dashboard__stat-label">Companies</span>
+        <span class="dashboard__stat-value">{{ totalCompanies }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard__favorites">
+    <div class="dashboard__favorites-header">
+      <nz-icon class="dashboard__favorites-icon" nzType="heart" nzTheme="outline" />
+      <div>
+        <p class="dashboard__favorites-title">Favorite reports</p>
+        <p class="dashboard__favorites-subtitle">Frequently opened reports for the selected company.</p>
+      </div>
+    </div>
+
+    <nz-table [nzData]="favoriteReports" [nzShowPagination]="false" nzSize="middle" #favTable>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Modified</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (report of favTable.data; track report.key) {
+          <tr class="dashboard__report-row" [routerLink]="['/reports', report.key]">
+            <td>
+              <div class="dashboard__report-name">
+                <div class="dashboard__report-icon">
+                  <nz-icon nzType="file-text" nzTheme="outline" />
+                </div>
+                <span>{{ report.name }}</span>
+              </div>
+            </td>
+            <td>{{ report.type }}</td>
+            <td>{{ report.modified }}</td>
+          </tr>
+        }
+      </tbody>
+    </nz-table>
+  </div>
+</div>

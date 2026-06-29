@@ -1,0 +1,35 @@
+@import 'styles/base/variables';
+
+.breakdown {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: @padding-sm;
+
+  @media (max-width: (@screen-md - 1)) {
+    grid-template-columns: 1fr;
+  }
+
+  &__item {
+    border: @border-width-base solid @border-color-base;
+    border-radius: @border-radius-lg;
+    background: @neutral-50;
+    padding: @padding-sm @padding-md;
+  }
+
+  &__label {
+    display: flex;
+    justify-content: space-between;
+    gap: @padding-sm;
+    margin-bottom: @padding-xs;
+
+    span {
+      color: @text-color-secondary;
+      font-size: @font-size-sm;
+    }
+
+    strong {
+      color: @heading-color;
+      font-size: @font-size-sm;
+    }
+  }
+}

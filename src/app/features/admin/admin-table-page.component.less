@@ -1,0 +1,41 @@
+@import 'styles/base/variables';
+
+.admin-page {
+  max-width: @content-max-width;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: @padding-md;
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: @padding-md;
+
+    h2 {
+      color: @heading-color;
+      font-size: @font-size-2xl;
+      margin-bottom: @margin-xs;
+    }
+
+    p {
+      color: @text-color-secondary;
+      margin: 0;
+    }
+  }
+
+  &__card {
+    background: @component-background;
+    border-radius: @border-radius-xl;
+    box-shadow: @shadow-xs;
+    border: @border-width-base solid @border-color-base;
+    overflow: hidden;
+
+    span {
+      display: block;
+      color: @text-color-secondary;
+      font-size: @font-size-sm;
+    }
+  }
+}

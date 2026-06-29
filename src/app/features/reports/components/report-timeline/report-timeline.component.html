@@ -1,0 +1,17 @@
+<div class="timeline">
+  @for (event of items; track event.title) {
+    <div
+      class="timeline__item"
+      [class.timeline__item--green]="event.color === 'green'"
+      [class.timeline__item--blue]="event.color === 'blue'"
+      [class.timeline__item--red]="event.color === 'red'"
+      [class.timeline__item--gray]="event.color === 'gray'"
+    >
+      <div class="timeline__dot"></div>
+      <div>
+        <strong>{{ event.title }}</strong>
+        <p>{{ event.description }}</p>
+      </div>
+    </div>
+  }
+</div>

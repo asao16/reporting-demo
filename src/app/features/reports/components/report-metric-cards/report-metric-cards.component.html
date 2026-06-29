@@ -1,0 +1,39 @@
+@if (variant === 'score-overview') {
+  <div class="score-layout">
+    <div class="score-layout__hero">
+      <span>{{ metrics[0].label }}</span>
+      <strong>{{ metrics[0].value }}</strong>
+      <nz-tag [nzColor]="metrics[0].tone">{{ metrics[0].delta }}</nz-tag>
+    </div>
+    <div class="score-layout__cards">
+      @for (metric of metrics.slice(1); track metric.label) {
+        <div class="score-layout__card">
+          <span>{{ metric.label }}</span>
+          <strong>{{ metric.value }}</strong>
+          <nz-tag [nzColor]="metric.tone">{{ metric.delta }}</nz-tag>
+        </div>
+      }
+      @for (item of breakdown; track item.label) {
+        <div class="score-layout__card score-layout__card--progress">
+          <span>{{ item.label }}</span>
+          <nz-progress
+            nzType="circle"
+            [nzPercent]="item.value"
+            [nzWidth]="76"
+            [nzStatus]="item.status === 'exception' ? 'exception' : item.status === 'success' ? 'success' : 'normal'"
+          />
+        </div>
+      }
+    </div>
+  </div>
+} @else {
+  <div class="metric-grid">
+    @for (metric of metrics; track metric.label) {
+      <div class="metric-grid__card">
+        <span>{{ metric.label }}</span>
+        <strong>{{ metric.value }}</strong>
+        <nz-tag [nzColor]="metric.tone">{{ metric.delta }}</nz-tag>
+      </div>
+    }
+  </div>
+}

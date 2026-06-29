@@ -1,0 +1,50 @@
+@import 'styles/base/variables';
+
+.timeline {
+  border: @border-width-base solid @border-color-base;
+  border-radius: @border-radius-lg;
+  padding: @padding-md;
+  display: flex;
+  flex-direction: column;
+  gap: @padding-md;
+
+  &__item {
+    display: grid;
+    grid-template-columns: 14px 1fr;
+    gap: @padding-sm;
+
+    strong {
+      color: @heading-color;
+      font-weight: @font-weight-semibold;
+    }
+
+    p {
+      margin: @padding-xss 0 0;
+      color: @text-color-secondary;
+      font-size: @font-size-sm;
+    }
+
+    &--green .timeline__dot {
+      background: @success-color;
+    }
+
+    &--blue .timeline__dot {
+      background: @info-color;
+    }
+
+    &--red .timeline__dot {
+      background: @error-color;
+    }
+
+    &--gray .timeline__dot {
+      background: @neutral-400;
+    }
+  }
+
+  &__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: @border-radius-full;
+    margin-top: 6px;
+  }
+}

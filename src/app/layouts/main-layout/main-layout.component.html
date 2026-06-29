@@ -1,0 +1,108 @@
+<div class="main-layout">
+  @if (isMobile() && mobileOpen()) {
+    <div class="main-layout__overlay" (click)="mobileOpen.set(false)"></div>
+  }
+
+  <aside
+    class="sidebar"
+    [class.sidebar--collapsed]="collapsed() && !isMobile()"
+    [class.sidebar--mobile-open]="isMobile() && mobileOpen()"
+  >
+    <div class="sidebar__logo">
+      <div class="sidebar__logo-mark">R</div>
+      @if (!collapsed() || isMobile()) {
+        <div class="sidebar__logo-text">
+          <strong>Reporting</strong>
+          <span>Demo Console</span>
+        </div>
+      }
+    </div>
+
+    <nav class="sidebar__nav">
+      @for (item of menuItems; track item.route) {
+        <a
+          class="sidebar__menu-item"
+          [routerLink]="item.route"
+          routerLinkActive="sidebar__menu-item--active"
+          [routerLinkActiveOptions]="{ exact: item.route === '/dashboard' }"
+          (click)="mobileOpen.set(false)"
+        >
+          <span class="sidebar__menu-item-icon">
+            <nz-icon [nzType]="item.icon" nzTheme="outline" />
+          </span>
+          @if (!collapsed() || isMobile()) {
+            <span class="sidebar__menu-item-label">{{ item.label }}</span>
+          }
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar__footer">
+      @if (!collapsed() || isMobile()) {
+        <nz-select class="sidebar__company-select" [(ngModel)]="selectedCompanyId">
+          @for (company of companies; track company.id) {
+            <nz-option [nzValue]="company.id" [nzLabel]="company.name" />
+          }
+        </nz-select>
+      }
+      <a class="sidebar__menu-item sidebar__logout">
+        <span class="sidebar__menu-item-icon">
+          <nz-icon nzType="logout" nzTheme="outline" />
+        </span>
+        @if (!collapsed() || isMobile()) {
+          <span class="sidebar__menu-item-label">Sign out</span>
+        }
+      </a>
+    </div>
+  </aside>
+
+  <div class="main-layout__body">
+    <header class="header">
+      <div class="header__left">
+        <button class="header__toggle" type="button" (click)="toggleSidebar()">
+          <nz-icon [nzType]="isMobile() ? 'menu' : collapsed() ? 'menu-unfold' : 'menu-fold'" nzTheme="outline" />
+        </button>
+      </div>
+      <div class="header__right">
+        <nz-badge nzDot nzStatus="success">
+          <button class="header__action-btn" type="button" (click)="exportPanelOpen.set(true)">
+            <nz-icon nzType="download" nzTheme="outline" />
+          </button>
+        </nz-badge>
+        <button class="header__lang-btn" nz-dropdown [nzDropdownMenu]="langMenu" nzPlacement="bottomRight">
+          <span class="header__lang-token">EN</span>
+        </button>
+        <nz-dropdown-menu #langMenu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>English</li>
+            <li nz-menu-item>Spanish</li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
+    </header>
+
+    <main class="main-layout__content">
+      <router-outlet />
+    </main>
+  </div>
+</div>
+
+<nz-drawer
+  [nzVisible]="exportPanelOpen()"
+  nzPlacement="right"
+  nzTitle="Export jobs"
+  [nzWidth]="420"
+  (nzOnClose)="exportPanelOpen.set(false)"
+>
+  <div *nzDrawerContent class="export-panel">
+    @for (job of exportJobs; track job.name) {
+      <div class="export-panel__job">
+        <div class="export-panel__job-header">
+          <strong>{{ job.name }}</strong>
+          <span>{{ job.status }}</span>
+        </div>
+        <nz-progress [nzPercent]="job.progress" nzSize="small" />
+      </div>
+    }
+  </div>
+</nz-drawer>

@@ -1,0 +1,85 @@
+@import 'styles/base/variables';
+
+:host {
+  display: block;
+
+  @media (min-width: @screen-md) {
+    position: sticky;
+    top: 0;
+    z-index: @zindex-affix;
+  }
+}
+
+.filter-summary {
+  border: @border-width-base solid @border-color-base;
+  border-radius: @border-radius-lg;
+  background: @component-background;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: @padding-md;
+    padding: @padding-sm @padding-md;
+    border-bottom: @border-width-base solid @border-color-split;
+    flex-wrap: wrap;
+
+    @media (max-width: (@screen-sm - 1)) {
+      padding: @padding-xs @padding-sm;
+    }
+  }
+
+  &__title,
+  &__updated {
+    display: inline-flex;
+    align-items: center;
+    gap: @padding-xs;
+  }
+
+  &__title {
+    color: @heading-color;
+    font-weight: @font-weight-semibold;
+  }
+
+  &__updated {
+    color: @text-color-secondary;
+    font-size: @font-size-sm;
+  }
+
+  &__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: @padding-xs;
+    padding: @padding-sm @padding-md;
+  }
+
+  &__controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+    gap: @padding-sm;
+    padding: @padding-sm @padding-md 0;
+
+    @media (max-width: (@screen-sm - 1)) {
+      grid-template-columns: 1fr;
+      gap: @padding-xs;
+      padding: @padding-xs @padding-sm 0;
+    }
+  }
+
+  &__select {
+    width: 100%;
+  }
+
+  &__badges {
+    @media (max-width: (@screen-sm - 1)) {
+      padding: @padding-xs @padding-sm;
+      gap: @padding-xss;
+    }
+  }
+
+}
+
+:host ::ng-deep .filter-summary__select .ant-select-selector {
+  min-height: @height-base;
+}

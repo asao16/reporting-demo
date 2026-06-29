@@ -1,0 +1,137 @@
+<div class="report-viewer">
+  <div
+    class="report-viewer__container"
+    [class.report-viewer__container--chat-open]="isChatOpen()"
+  >
+    <div class="report-viewer__main">
+      <div class="report-viewer__report-container">
+        <div class="report-viewer__header">
+          <div>
+            <a
+              class="report-viewer__back"
+              routerLink="/reports"
+              [queryParams]="backQueryParams()"
+            >
+              <nz-icon nzType="left" nzTheme="outline" />
+              {{ report().folderKey ? "Performance reports" : "Reports" }}
+            </a>
+            <h2>{{ report().name }}</h2>
+            <p>{{ report().category }} - {{ report().type }} - {{ report().modified }}</p>
+          </div>
+        </div>
+
+        <div class="report-viewer__section-header">
+          <div class="report-viewer__tabs">
+            <nz-tabs
+              [nzSelectedIndex]="activeSection()"
+              (nzSelectedIndexChange)="onSectionChange($event)"
+            >
+              <nz-tab nzTitle="Overview"></nz-tab>
+              <nz-tab nzTitle="Trend"></nz-tab>
+              <nz-tab nzTitle="Details"></nz-tab>
+            </nz-tabs>
+          </div>
+          <div class="report-viewer__actions">
+            <button nz-button [nzType]="report().favorite ? 'primary' : 'default'" class="btn-responsive">
+              <nz-icon nzType="heart" [nzTheme]="report().favorite ? 'fill' : 'outline'" />
+              <span class="btn-responsive__label">Favorite</span>
+            </button>
+            <button nz-button class="btn-responsive">
+              <nz-icon nzType="download" nzTheme="outline" />
+              <span class="btn-responsive__label">Export</span>
+            </button>
+            <button
+              nz-button
+              [nzType]="isChatOpen() ? 'primary' : 'default'"
+              class="btn-responsive"
+              aria-label="AI chat"
+              [attr.aria-pressed]="isChatOpen()"
+              (click)="toggleChat()"
+            >
+              <nz-icon nzType="robot" nzTheme="outline" />
+              <span class="btn-responsive__label">AI chat</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="report-viewer__content">
+          <div class="report-viewer__section">
+          <app-report-filter-summary
+            [category]="report().category"
+            [filters]="filters()"
+            [resultCount]="filteredRows().length"
+            (filtersChange)="onFiltersChange($event)"
+          />
+
+          @if (activeSection() === 0) {
+            @if (report().key === 'lead-time') {
+              <app-report-metric-cards
+                [metrics]="filteredMetrics()"
+                variant="kpi-grid"
+              />
+              <app-report-breakdown-progress
+                [breakdown]="filteredBreakdown()"
+              />
+            } @else {
+              <app-report-metric-cards
+                [metrics]="filteredMetrics()"
+                [breakdown]="filteredBreakdown()"
+                variant="score-overview"
+              />
+            }
+          }
+
+          @if (activeSection() === 1) {
+            <app-report-trend-chart
+              [title]="report().chartLabel"
+              [subtitle]="report().chartType === 'bar' ? 'Distribution by period' : 'Selected period'"
+              [chartType]="report().chartType"
+              [data]="filteredChartData()"
+            />
+          }
+
+          @if (activeSection() === 2) {
+            @if (report().key === 'lead-time') {
+              <app-report-data-table
+                [rows]="filteredRows()"
+                primaryLabel="Route"
+                valueLabel="ETA"
+              />
+              <app-report-timeline [items]="filteredTimeline()" />
+            } @else {
+              <app-report-data-table
+                [rows]="filteredRows()"
+                primaryLabel="Supplier"
+                valueLabel="Score"
+              />
+              <app-report-supplier-cards [rows]="filteredRows()" />
+              <app-report-timeline [items]="filteredTimeline()" />
+            }
+          }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    @if (isChatOpen()) {
+    <aside class="ai-chat">
+      <div class="ai-chat__header">
+        <div>
+          <h3>Report AI</h3>
+          <p>Current section attached</p>
+        </div>
+        <nz-icon nzType="robot" nzTheme="outline" />
+      </div>
+      <div class="ai-chat__messages">
+        <div class="ai-chat__message">Attached {{ report().name }} and its visible rows.</div>
+        <div class="ai-chat__message ai-chat__message--user">What should I review first?</div>
+        <div class="ai-chat__message">{{ aiInsight() }}</div>
+      </div>
+      <div class="ai-chat__input">
+        <input nz-input placeholder="Ask about this report" />
+        <button nz-button nzType="primary">Send</button>
+      </div>
+    </aside>
+    }
+  </div>
+</div>

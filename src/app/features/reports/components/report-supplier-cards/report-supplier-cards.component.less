@@ -1,0 +1,57 @@
+@import 'styles/base/variables';
+
+.supplier-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: @padding-sm;
+
+  @media (max-width: (@screen-lg - 1)) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.supplier-card {
+  border: @border-width-base solid @border-color-base;
+  border-radius: @border-radius-lg;
+  background: @component-background;
+  padding: @padding-md;
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  gap: @padding-sm;
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    gap: @padding-sm;
+
+    strong {
+      display: block;
+      color: @heading-color;
+      font-weight: @font-weight-semibold;
+    }
+
+    span {
+      color: @text-color-secondary;
+      font-size: @font-size-sm;
+    }
+  }
+
+  p {
+    margin: 0;
+    color: @text-color-secondary;
+    font-size: @font-size-sm;
+    flex: 1;
+  }
+
+  &__score {
+    align-self: flex-start;
+    min-width: 72px;
+    border-radius: @border-radius-lg;
+    background: @neutral-100;
+    color: @heading-color;
+    padding: @padding-xs @padding-sm;
+    font-size: @font-size-xl;
+    font-weight: @font-weight-bold;
+  }
+}

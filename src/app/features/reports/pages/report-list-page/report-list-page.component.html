@@ -1,0 +1,105 @@
+<div class="report-list">
+  <nav class="report-list__breadcrumb">
+    <button
+      class="report-list__breadcrumb-item report-list__breadcrumb-item--home"
+      type="button"
+      (click)="goRoot()"
+    >
+      <nz-icon nzType="home" nzTheme="outline" />
+      Reports
+    </button>
+    @if (activeFolder()) {
+      <nz-icon
+        class="report-list__breadcrumb-sep"
+        nzType="right"
+        nzTheme="outline"
+      />
+      <span class="report-list__breadcrumb-current">{{ activeFolderName() }}</span>
+    }
+  </nav>
+
+  <div class="report-list__card">
+    <div class="report-list__card-header">
+      <h3 class="report-list__card-title">
+        {{ activeFolder() ? activeFolderName() : "Reports" }}
+      </h3>
+      <div class="report-list__card-actions">
+        @if (activeFolder()) {
+          <nz-input-group
+            nzSize="default"
+            class="report-list__search"
+            nzPrefixIcon="search"
+          >
+            <input
+              nz-input
+              [ngModel]="search()"
+              (ngModelChange)="search.set($event)"
+              placeholder="Search reports"
+            />
+          </nz-input-group>
+        }
+      </div>
+    </div>
+
+    <div class="report-list__grid">
+      @if (!activeFolder()) {
+        @for (folder of folders; track folder.key) {
+          <button
+            class="report-list__grid-card report-list__grid-card--folder"
+            type="button"
+            (click)="openFolder(folder.key)"
+          >
+            <div class="report-list__grid-card-body">
+              <div class="report-list__grid-card-icon">
+                <nz-icon nzType="folder" nzTheme="outline" />
+              </div>
+              <div class="report-list__grid-card-info">
+                <span class="report-list__grid-card-name">{{ folder.name }}</span>
+                <span class="report-list__grid-card-desc">
+                  {{ folder.count }} items - {{ folder.description }}
+                </span>
+              </div>
+            </div>
+          </button>
+        }
+      }
+
+      @for (report of reports(); track report.key) {
+        <a
+          class="report-list__grid-card report-list__grid-card--report"
+          [routerLink]="['/reports', report.key]"
+          [queryParams]="report.folderKey ? { folder: report.folderKey } : null"
+        >
+          <div class="report-list__grid-card-body">
+            <div
+              class="report-list__grid-card-icon report-list__grid-card-icon--report"
+            >
+              <nz-icon [nzType]="report.icon" nzTheme="outline" />
+            </div>
+            <div class="report-list__grid-card-info">
+              <span class="report-list__grid-card-name">{{ report.name }}</span>
+              <span class="report-list__grid-card-desc">
+                {{ report.category }} - {{ report.type }} - {{ report.modified }}
+              </span>
+            </div>
+            <button
+              nz-button
+              nzType="text"
+              class="report-list__grid-card-menu"
+              type="button"
+            >
+              <nz-icon nzType="more" nzTheme="outline" />
+            </button>
+          </div>
+        </a>
+      } @empty {
+        @if (activeFolder()) {
+          <div class="report-list__empty">
+            <nz-icon nzType="inbox" nzTheme="outline" />
+            <span>No reports found</span>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>

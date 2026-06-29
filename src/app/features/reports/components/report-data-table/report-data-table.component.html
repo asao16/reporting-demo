@@ -1,0 +1,36 @@
+<div class="data-table__scroll-container">
+  <nz-table
+    [nzData]="rows"
+    [nzShowPagination]="rows.length > 5"
+    [nzPageSize]="5"
+    [nzScroll]="{ x: 'max-content' }"
+    nzSize="middle"
+    #reportTable
+  >
+    <thead>
+      <tr>
+        <th>{{ primaryLabel }}</th>
+        <th>Owner</th>
+        <th>Status</th>
+        <th>{{ valueLabel }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of reportTable.data; track row.primary; let rowIndex = $index) {
+        <tr [class.data-table__row--alternate]="rowIndex % 2 === 1">
+          <td>
+            <div class="data-table__primary">{{ row.primary }}</div>
+            <div class="data-table__secondary">{{ row.secondary }}</div>
+          </td>
+          <td>{{ row.owner }}</td>
+          <td>
+            <nz-tag [nzColor]="tagColor(row.status)">
+              {{ row.status }}
+            </nz-tag>
+          </td>
+          <td class="data-table__number">{{ row.value }}</td>
+        </tr>
+      }
+    </tbody>
+  </nz-table>
+</div>

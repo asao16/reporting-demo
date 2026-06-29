@@ -1,0 +1,17 @@
+<div class="supplier-grid">
+  @for (row of rows; track row.primary) {
+    <article class="supplier-card">
+      <div class="supplier-card__head">
+        <div>
+          <strong>{{ row.primary }}</strong>
+          <span>{{ row.owner }}</span>
+        </div>
+        <nz-tag [nzColor]="tagColor(row.status)">
+          {{ row.status }}
+        </nz-tag>
+      </div>
+      <p>{{ row.secondary }}</p>
+      <div class="supplier-card__score">{{ row.value }}</div>
+    </article>
+  }
+</div>

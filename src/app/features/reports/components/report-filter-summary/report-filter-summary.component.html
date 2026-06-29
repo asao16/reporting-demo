@@ -1,0 +1,36 @@
+<section class="filter-summary">
+  <div class="filter-summary__header">
+    <div class="filter-summary__title">
+      <nz-icon nzType="filter" nzTheme="outline" />
+      <span>Filters</span>
+    </div>
+    <span class="filter-summary__updated">
+      <nz-icon nzType="clock-circle" nzTheme="outline" />
+      {{ resultCount }} visible rows
+    </span>
+  </div>
+  <div class="filter-summary__controls">
+    <nz-select
+      class="filter-summary__select"
+      [ngModel]="filters.period"
+      (ngModelChange)="updatePeriod($event)"
+    >
+      @for (option of periodOptions; track option.value) {
+        <nz-option [nzValue]="option.value" [nzLabel]="option.label" />
+      }
+    </nz-select>
+    <nz-select
+      class="filter-summary__select"
+      [ngModel]="filters.segment"
+      (ngModelChange)="updateSegment($event)"
+    >
+      @for (option of segmentOptions; track option.value) {
+        <nz-option [nzValue]="option.value" [nzLabel]="option.label" />
+      }
+    </nz-select>
+  </div>
+  <div class="filter-summary__badges">
+    <nz-tag nzColor="default"><strong>Period:</strong>&nbsp;{{ periodLabel }}</nz-tag>
+    <nz-tag nzColor="default"><strong>Segment:</strong>&nbsp;{{ segmentLabel }}</nz-tag>
+  </div>
+</section>
