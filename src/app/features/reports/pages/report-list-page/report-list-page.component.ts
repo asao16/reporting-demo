@@ -8,11 +8,12 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 
 import { demoFolders, demoReports } from '../../../../demo-data/reporting-demo.data';
+import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-report-list-page',
   standalone: true,
-  imports: [FormsModule, RouterLink, NzButtonModule, NzDropDownModule, NzIconModule, NzInputModule],
+  imports: [FormsModule, RouterLink, NzButtonModule, NzDropDownModule, NzIconModule, NzInputModule, TranslatePipe],
   templateUrl: './report-list-page.component.html',
   styleUrl: './report-list-page.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

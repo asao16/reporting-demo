@@ -1,19 +1,22 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { DemoReportFilterState } from '../../../../demo-data/reporting-demo.models';
+import { TranslationService } from '../../../../core/services/translation.service';
+import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-report-filter-summary',
   standalone: true,
-  imports: [FormsModule, NzIconModule, NzSelectModule, NzTagModule],
+  imports: [FormsModule, NzIconModule, NzSelectModule, NzTagModule, TranslatePipe],
   templateUrl: './report-filter-summary.component.html',
   styleUrl: './report-filter-summary.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReportFilterSummaryComponent {
+  private readonly translations = inject(TranslationService);
   @Input({ required: true }) category = '';
   @Input({ required: true }) filters: DemoReportFilterState = {
     period: '12m',
@@ -23,25 +26,25 @@ export class ReportFilterSummaryComponent {
   @Output() filtersChange = new EventEmitter<DemoReportFilterState>();
 
   readonly periodOptions = [
-    { label: 'Last 6 months', value: '6m' },
-    { label: 'Last 12 months', value: '12m' },
+    { labelKey: 'filters.last-6-months', value: '6m' },
+    { labelKey: 'filters.last-12-months', value: '12m' },
   ] as const;
 
-  get segmentOptions(): { label: string; value: DemoReportFilterState['segment'] }[] {
+  get segmentOptions(): { labelKey: string; value: DemoReportFilterState['segment'] }[] {
     if (this.category === 'Operations') {
       return [
-        { label: 'All lanes', value: 'all' },
-        { label: 'Active operations', value: 'primary' },
-        { label: 'Recovered lanes', value: 'secondary' },
-        { label: 'Critical exceptions', value: 'risk' },
+        { labelKey: 'filters.all-lanes', value: 'all' },
+        { labelKey: 'filters.active-operations', value: 'primary' },
+        { labelKey: 'filters.recovered-lanes', value: 'secondary' },
+        { labelKey: 'filters.critical-exceptions', value: 'risk' },
       ];
     }
 
     return [
-      { label: 'All suppliers', value: 'all' },
-      { label: 'Strategic suppliers', value: 'primary' },
-      { label: 'Top performers', value: 'secondary' },
-      { label: 'Watchlist', value: 'risk' },
+      { labelKey: 'filters.all-suppliers', value: 'all' },
+      { labelKey: 'filters.strategic-suppliers', value: 'primary' },
+      { labelKey: 'filters.top-performers', value: 'secondary' },
+      { labelKey: 'filters.watchlist', value: 'risk' },
     ];
   }
 
@@ -54,10 +57,12 @@ export class ReportFilterSummaryComponent {
   }
 
   get periodLabel(): string {
-    return this.periodOptions.find((option) => option.value === this.filters.period)?.label ?? '';
+    const option = this.periodOptions.find((item) => item.value === this.filters.period);
+    return option ? this.translations.get(option.labelKey) : '';
   }
 
   get segmentLabel(): string {
-    return this.segmentOptions.find((option) => option.value === this.filters.segment)?.label ?? '';
+    const option = this.segmentOptions.find((item) => item.value === this.filters.segment);
+    return option ? this.translations.get(option.labelKey) : '';
   }
 }

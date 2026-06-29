@@ -1,5 +1,9 @@
 import { expect, test } from '@playwright/test';
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => localStorage.clear());
+});
+
 async function expectNoHorizontalOverflow(page: import('@playwright/test').Page) {
   const overflow = await page.evaluate(() => {
     const doc = document.documentElement;
@@ -98,6 +102,21 @@ test('report browser and modular report viewer render cleanly', async ({ page },
   await expect(page.getByText('Chicago to Denver')).toBeVisible();
   await expect(page.getByText('Late transfer spike detected')).toBeVisible();
   await expectNoHorizontalOverflow(page);
+});
+
+test('language switch updates visible UI labels', async ({ page }) => {
+  await page.goto('/reports/lead-time');
+  await expect(page.getByRole('tab', { name: 'Overview' })).toBeVisible();
+
+  await page.getByRole('button', { name: 'EN', exact: true }).click();
+  await page.getByText('Spanish', { exact: true }).click();
+
+  await expect(page.getByRole('button', { name: 'ES', exact: true })).toBeVisible();
+  await expect(page.getByRole('tab', { name: 'Resumen' })).toBeVisible();
+  await expect(page.getByText('Filtros')).toBeVisible();
+  await expect(page.locator('.report-viewer__back')).toContainText('Reportes de rendimiento');
+  await expect(page.getByRole('heading', { name: 'Rendimiento de tiempos' })).toBeVisible();
+  await expect(page.getByText('Lead time promedio')).toBeVisible();
 });
 
 test('filters change visible report data', async ({ page }) => {

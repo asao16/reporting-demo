@@ -1,14 +1,14 @@
 <div class="admin-page">
   <div class="admin-page__header">
     <div>
-      <h2>{{ entity() === 'companies' ? 'Companies' : 'Users' }}</h2>
+      <h2>{{ (entity() === 'companies' ? 'nav.companies' : 'nav.users') | translate }}</h2>
       <p>
-        {{ entity() === 'companies' ? 'Tenant workspaces and report access.' : 'Account access and role assignments.' }}
+        {{ (entity() === 'companies' ? 'admin.companies-desc' : 'admin.users-desc') | translate }}
       </p>
     </div>
     <button nz-button nzType="primary">
       <nz-icon nzType="plus" nzTheme="outline" />
-      Create
+      {{ "admin.create" | translate }}
     </button>
   </div>
 
@@ -17,11 +17,11 @@
       <nz-table [nzData]="companies" [nzShowPagination]="false" #companyTable>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Code</th>
-            <th>Users</th>
-            <th>Reports</th>
-            <th>Status</th>
+            <th>{{ "table.name" | translate }}</th>
+            <th>{{ "table.code" | translate }}</th>
+            <th>{{ "dashboard.users" | translate }}</th>
+            <th>{{ "dashboard.reports" | translate }}</th>
+            <th>{{ "table.status" | translate }}</th>
           </tr>
         </thead>
         <tbody>
@@ -31,7 +31,7 @@
               <td>{{ company.code }}</td>
               <td>{{ company.users }}</td>
               <td>{{ company.reports }}</td>
-              <td><nz-tag [nzColor]="company.status === 'Active' ? 'success' : 'warning'">{{ company.status }}</nz-tag></td>
+              <td><nz-tag [nzColor]="company.status === 'Active' ? 'success' : 'warning'">{{ company.status | translate }}</nz-tag></td>
             </tr>
           }
         </tbody>
@@ -40,9 +40,9 @@
       <nz-table [nzData]="users" [nzShowPagination]="false" #userTable>
         <thead>
           <tr>
-            <th>User</th>
-            <th>Role</th>
-            <th>Status</th>
+            <th>{{ "table.user" | translate }}</th>
+            <th>{{ "table.role" | translate }}</th>
+            <th>{{ "table.status" | translate }}</th>
           </tr>
         </thead>
         <tbody>
@@ -52,8 +52,8 @@
                 <strong>{{ user.name }}</strong>
                 <span>{{ user.email }}</span>
               </td>
-              <td>{{ user.role }}</td>
-              <td><nz-tag [nzColor]="user.status === 'Active' ? 'success' : 'warning'">{{ user.status }}</nz-tag></td>
+              <td>{{ user.role | translate }}</td>
+              <td><nz-tag [nzColor]="user.status === 'Active' ? 'success' : 'warning'">{{ user.status | translate }}</nz-tag></td>
             </tr>
           }
         </tbody>

@@ -6,7 +6,7 @@
       (click)="goRoot()"
     >
       <nz-icon nzType="home" nzTheme="outline" />
-      Reports
+      {{ "nav.reports" | translate }}
     </button>
     @if (activeFolder()) {
       <nz-icon
@@ -14,14 +14,14 @@
         nzType="right"
         nzTheme="outline"
       />
-      <span class="report-list__breadcrumb-current">{{ activeFolderName() }}</span>
+      <span class="report-list__breadcrumb-current">{{ activeFolderName() | translate }}</span>
     }
   </nav>
 
   <div class="report-list__card">
     <div class="report-list__card-header">
       <h3 class="report-list__card-title">
-        {{ activeFolder() ? activeFolderName() : "Reports" }}
+        {{ activeFolder() ? (activeFolderName() | translate) : ("nav.reports" | translate) }}
       </h3>
       <div class="report-list__card-actions">
         @if (activeFolder()) {
@@ -34,7 +34,7 @@
               nz-input
               [ngModel]="search()"
               (ngModelChange)="search.set($event)"
-              placeholder="Search reports"
+              [placeholder]="'reports.search' | translate"
             />
           </nz-input-group>
         }
@@ -54,9 +54,9 @@
                 <nz-icon nzType="folder" nzTheme="outline" />
               </div>
               <div class="report-list__grid-card-info">
-                <span class="report-list__grid-card-name">{{ folder.name }}</span>
+                <span class="report-list__grid-card-name">{{ folder.name | translate }}</span>
                 <span class="report-list__grid-card-desc">
-                  {{ folder.count }} items - {{ folder.description }}
+                  {{ folder.count }} {{ "reports.items" | translate }} - {{ folder.description | translate }}
                 </span>
               </div>
             </div>
@@ -77,9 +77,9 @@
               <nz-icon [nzType]="report.icon" nzTheme="outline" />
             </div>
             <div class="report-list__grid-card-info">
-              <span class="report-list__grid-card-name">{{ report.name }}</span>
+              <span class="report-list__grid-card-name">{{ report.name | translate }}</span>
               <span class="report-list__grid-card-desc">
-                {{ report.category }} - {{ report.type }} - {{ report.modified }}
+                {{ report.category | translate }} - {{ report.type | translate }} - {{ report.modified }}
               </span>
             </div>
             <button
@@ -96,7 +96,7 @@
         @if (activeFolder()) {
           <div class="report-list__empty">
             <nz-icon nzType="inbox" nzTheme="outline" />
-            <span>No reports found</span>
+            <span>{{ "reports.no-results" | translate }}</span>
           </div>
         }
       }

@@ -2,11 +2,11 @@
   <div class="filter-summary__header">
     <div class="filter-summary__title">
       <nz-icon nzType="filter" nzTheme="outline" />
-      <span>Filters</span>
+      <span>{{ "filters.title" | translate }}</span>
     </div>
     <span class="filter-summary__updated">
       <nz-icon nzType="clock-circle" nzTheme="outline" />
-      {{ resultCount }} visible rows
+      {{ resultCount }} {{ "filters.visible-rows" | translate }}
     </span>
   </div>
   <div class="filter-summary__controls">
@@ -16,7 +16,7 @@
       (ngModelChange)="updatePeriod($event)"
     >
       @for (option of periodOptions; track option.value) {
-        <nz-option [nzValue]="option.value" [nzLabel]="option.label" />
+        <nz-option [nzValue]="option.value" [nzLabel]="option.labelKey | translate" />
       }
     </nz-select>
     <nz-select
@@ -25,12 +25,12 @@
       (ngModelChange)="updateSegment($event)"
     >
       @for (option of segmentOptions; track option.value) {
-        <nz-option [nzValue]="option.value" [nzLabel]="option.label" />
+        <nz-option [nzValue]="option.value" [nzLabel]="option.labelKey | translate" />
       }
     </nz-select>
   </div>
   <div class="filter-summary__badges">
-    <nz-tag nzColor="default"><strong>Period:</strong>&nbsp;{{ periodLabel }}</nz-tag>
-    <nz-tag nzColor="default"><strong>Segment:</strong>&nbsp;{{ segmentLabel }}</nz-tag>
+    <nz-tag nzColor="default"><strong>{{ "filters.period" | translate }}:</strong>&nbsp;{{ periodLabel }}</nz-tag>
+    <nz-tag nzColor="default"><strong>{{ "filters.segment" | translate }}:</strong>&nbsp;{{ segmentLabel }}</nz-tag>
   </div>
 </section>

@@ -6,11 +6,12 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 
 import { demoCompanies, demoUsers } from '../../demo-data/reporting-demo.data';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-admin-table-page',
   standalone: true,
-  imports: [NzButtonModule, NzIconModule, NzTableModule, NzTagModule],
+  imports: [NzButtonModule, NzIconModule, NzTableModule, NzTagModule, TranslatePipe],
   templateUrl: './admin-table-page.component.html',
   styleUrl: './admin-table-page.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

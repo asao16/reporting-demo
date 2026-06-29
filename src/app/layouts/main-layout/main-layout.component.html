@@ -12,8 +12,8 @@
       <div class="sidebar__logo-mark">R</div>
       @if (!collapsed() || isMobile()) {
         <div class="sidebar__logo-text">
-          <strong>Reporting</strong>
-          <span>Demo Console</span>
+          <strong>{{ "app.name" | translate }}</strong>
+          <span>{{ "app.subtitle" | translate }}</span>
         </div>
       }
     </div>
@@ -31,7 +31,7 @@
             <nz-icon [nzType]="item.icon" nzTheme="outline" />
           </span>
           @if (!collapsed() || isMobile()) {
-            <span class="sidebar__menu-item-label">{{ item.label }}</span>
+            <span class="sidebar__menu-item-label">{{ item.labelKey | translate }}</span>
           }
         </a>
       }
@@ -50,7 +50,7 @@
           <nz-icon nzType="logout" nzTheme="outline" />
         </span>
         @if (!collapsed() || isMobile()) {
-          <span class="sidebar__menu-item-label">Sign out</span>
+          <span class="sidebar__menu-item-label">{{ "nav.sign-out" | translate }}</span>
         }
       </a>
     </div>
@@ -70,12 +70,19 @@
           </button>
         </nz-badge>
         <button class="header__lang-btn" nz-dropdown [nzDropdownMenu]="langMenu" nzPlacement="bottomRight">
-          <span class="header__lang-token">EN</span>
+          <span class="header__lang-token">{{ currentLanguage().toUpperCase() }}</span>
         </button>
         <nz-dropdown-menu #langMenu="nzDropdownMenu">
           <ul nz-menu>
-            <li nz-menu-item>English</li>
-            <li nz-menu-item>Spanish</li>
+            @for (language of languages; track language.code) {
+              <li
+                nz-menu-item
+                [class.ant-menu-item-selected]="language.code === currentLanguage()"
+                (click)="switchLanguage(language.code)"
+              >
+                {{ language.labelKey | translate }}
+              </li>
+            }
           </ul>
         </nz-dropdown-menu>
       </div>
@@ -90,7 +97,7 @@
 <nz-drawer
   [nzVisible]="exportPanelOpen()"
   nzPlacement="right"
-  nzTitle="Export jobs"
+  [nzTitle]="'export.jobs' | translate"
   [nzWidth]="420"
   (nzOnClose)="exportPanelOpen.set(false)"
 >
@@ -99,7 +106,7 @@
       <div class="export-panel__job">
         <div class="export-panel__job-header">
           <strong>{{ job.name }}</strong>
-          <span>{{ job.status }}</span>
+          <span>{{ job.status | translate }}</span>
         </div>
         <nz-progress [nzPercent]="job.progress" nzSize="small" />
       </div>

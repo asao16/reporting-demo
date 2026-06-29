@@ -7,7 +7,7 @@
           <span>{{ row.owner }}</span>
         </div>
         <nz-tag [nzColor]="tagColor(row.status)">
-          {{ row.status }}
+          {{ row.status | translate }}
         </nz-tag>
       </div>
       <p>{{ row.secondary }}</p>

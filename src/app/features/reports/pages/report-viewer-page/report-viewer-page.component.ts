@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -24,6 +24,8 @@ import { ReportBreakdownProgressComponent } from '../../components/report-breakd
 import { ReportDataTableComponent } from '../../components/report-data-table/report-data-table.component';
 import { ReportTimelineComponent } from '../../components/report-timeline/report-timeline.component';
 import { ReportSupplierCardsComponent } from '../../components/report-supplier-cards/report-supplier-cards.component';
+import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
+import { TranslationService } from '../../../../core/services/translation.service';
 
 @Component({
   selector: 'app-report-viewer-page',
@@ -45,12 +47,14 @@ import { ReportSupplierCardsComponent } from '../../components/report-supplier-c
     ReportSupplierCardsComponent,
     ReportTimelineComponent,
     ReportTrendChartComponent,
+    TranslatePipe,
   ],
   templateUrl: './report-viewer-page.component.html',
   styleUrl: './report-viewer-page.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReportViewerPageComponent {
+  private readonly translations = inject(TranslationService);
   readonly reportKey = input.required<string>();
   readonly activeSection = signal(0);
   readonly isChatOpen = signal(true);
@@ -80,7 +84,7 @@ export class ReportViewerPageComponent {
   readonly filteredTimeline = computed(() => this.buildFilteredTimeline());
   readonly aiInsight = computed(() => {
     const timeline = this.filteredTimeline();
-    return timeline[1]?.description ?? timeline[0]?.description ?? 'The selected report view is ready for review.';
+    return timeline[1]?.description ?? timeline[0]?.description ?? this.translations.get('insight.ready');
   });
   readonly backQueryParams = computed(() => {
     const folderKey = this.report().folderKey;
@@ -209,16 +213,16 @@ export class ReportViewerPageComponent {
 
     if (report.key === 'lead-time') {
       return [
-        { title: `${focus} selected`, description: `${this.segmentLabel()} is now driving the visible KPIs.`, color: 'blue' },
-        { title: 'Operational signal updated', description: row?.secondary ?? 'The selected lane group has no active rows.', color: segment === 'risk' ? 'red' : 'green' },
-        { title: 'AI context refreshed', description: 'The chat panel is attached to the current filtered lane set.', color: 'gray' },
+        { title: this.translations.get('timeline.selected', { focus }), description: this.translations.get('timeline.visible-kpis', { segment: this.segmentLabel() }), color: 'blue' },
+        { title: this.translations.get('timeline.operations-updated'), description: row?.secondary ?? this.translations.get('timeline.no-lanes'), color: segment === 'risk' ? 'red' : 'green' },
+        { title: this.translations.get('timeline.ai-context'), description: this.translations.get('timeline.lane-context'), color: 'gray' },
       ];
     }
 
     return [
-      { title: `${focus} selected`, description: `${this.segmentLabel()} is now driving the scorecard KPIs.`, color: 'blue' },
-      { title: 'Supplier signal updated', description: row?.secondary ?? 'The selected supplier group has no active rows.', color: segment === 'risk' ? 'red' : 'green' },
-      { title: 'AI context refreshed', description: 'The chat panel is attached to the current filtered supplier set.', color: 'gray' },
+      { title: this.translations.get('timeline.selected', { focus }), description: this.translations.get('timeline.scorecard-kpis', { segment: this.segmentLabel() }), color: 'blue' },
+      { title: this.translations.get('timeline.suppliers-updated'), description: row?.secondary ?? this.translations.get('timeline.no-suppliers'), color: segment === 'risk' ? 'red' : 'green' },
+      { title: this.translations.get('timeline.ai-context'), description: this.translations.get('timeline.supplier-context'), color: 'gray' },
     ];
   }
 
@@ -231,7 +235,7 @@ export class ReportViewerPageComponent {
   private withRecentPeriodDeltas(metrics: DemoMetric[]): DemoMetric[] {
     return metrics.map((metric, index) => ({
       ...metric,
-      delta: index === 0 ? `${metric.delta} recent` : metric.delta,
+      delta: index === 0 ? `${metric.delta} ${this.translations.get('recent')}` : metric.delta,
     }));
   }
 
@@ -296,21 +300,21 @@ export class ReportViewerPageComponent {
 
     if (this.report().key === 'lead-time') {
       return segment === 'primary'
-        ? 'Active operations'
+        ? this.translations.get('filters.active-operations')
         : segment === 'secondary'
-          ? 'Recovered lanes'
+          ? this.translations.get('filters.recovered-lanes')
           : segment === 'risk'
-            ? 'Critical exceptions'
-            : 'All lanes';
+            ? this.translations.get('filters.critical-exceptions')
+            : this.translations.get('filters.all-lanes');
     }
 
     return segment === 'primary'
-      ? 'Strategic suppliers'
+      ? this.translations.get('filters.strategic-suppliers')
       : segment === 'secondary'
-        ? 'Top performers'
+        ? this.translations.get('filters.top-performers')
         : segment === 'risk'
-          ? 'Watchlist'
-          : 'All suppliers';
+          ? this.translations.get('filters.watchlist')
+          : this.translations.get('filters.all-suppliers');
   }
 
   private clampPercent(value: number): number {

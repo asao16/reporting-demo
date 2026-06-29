@@ -4,11 +4,12 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTableModule } from 'ng-zorro-antd/table';
 
 import { demoCompanies, demoReports } from '../../demo-data/reporting-demo.data';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [RouterLink, NzIconModule, NzTableModule],
+  imports: [RouterLink, NzIconModule, NzTableModule, TranslatePipe],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

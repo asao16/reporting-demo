@@ -1,21 +1,21 @@
 @if (variant === 'score-overview') {
   <div class="score-layout">
     <div class="score-layout__hero">
-      <span>{{ metrics[0].label }}</span>
+      <span>{{ metrics[0].label | translate }}</span>
       <strong>{{ metrics[0].value }}</strong>
-      <nz-tag [nzColor]="metrics[0].tone">{{ metrics[0].delta }}</nz-tag>
+      <nz-tag [nzColor]="metrics[0].tone">{{ metrics[0].delta | translate }}</nz-tag>
     </div>
     <div class="score-layout__cards">
       @for (metric of metrics.slice(1); track metric.label) {
         <div class="score-layout__card">
-          <span>{{ metric.label }}</span>
+          <span>{{ metric.label | translate }}</span>
           <strong>{{ metric.value }}</strong>
-          <nz-tag [nzColor]="metric.tone">{{ metric.delta }}</nz-tag>
+          <nz-tag [nzColor]="metric.tone">{{ metric.delta | translate }}</nz-tag>
         </div>
       }
       @for (item of breakdown; track item.label) {
         <div class="score-layout__card score-layout__card--progress">
-          <span>{{ item.label }}</span>
+          <span>{{ item.label | translate }}</span>
           <nz-progress
             nzType="circle"
             [nzPercent]="item.value"
@@ -30,9 +30,9 @@
   <div class="metric-grid">
     @for (metric of metrics; track metric.label) {
       <div class="metric-grid__card">
-        <span>{{ metric.label }}</span>
+        <span>{{ metric.label | translate }}</span>
         <strong>{{ metric.value }}</strong>
-        <nz-tag [nzColor]="metric.tone">{{ metric.delta }}</nz-tag>
+        <nz-tag [nzColor]="metric.tone">{{ metric.delta | translate }}</nz-tag>
       </div>
     }
   </div>
